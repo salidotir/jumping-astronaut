@@ -30,6 +30,8 @@ public class TapController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        // Debug.Log("Hello world!");
+
         rigidBody = GetComponent<Rigidbody2D>();
 
         downRotation = Quaternion.Euler(0, 0, -90);
@@ -50,8 +52,8 @@ public class TapController : MonoBehaviour {
         transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
     }
 
-    void OnTrigger2D(Collider2D col)
-    {
+    void OnTriggerEnter2D(Collider2D col)
+    {      
         if (col.gameObject.tag == "ScoreZone")
         {
             // get a score
