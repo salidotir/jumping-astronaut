@@ -11,16 +11,16 @@ public class TapController : MonoBehaviour {
     public float tiltSmooth = 2;
     public Vector3 stopPosition;
 
-    Rigidbody2D rigidBody;
+    public static Rigidbody2D rigidBody;
     Quaternion downRotation;
     Quaternion forwardRotation;
 
     public GameObject startPage;
     public GameObject gameOverPage;
     public Text scoreText;
-    int score = 0;
+    public static int score = 0;
     public bool gameOver = false;
-    enum PageState
+    public enum PageState
     {
         None,
         Start,
@@ -70,10 +70,10 @@ public class TapController : MonoBehaviour {
 
             // game over
             gameOver = true;
-            int savedScore = PlayerPrefs.GetInt("HighScore");
+            int savedScore = PlayerPrefs.GetInt("BestScore");
             if (score > savedScore)
             {
-                PlayerPrefs.SetInt("HighScore", score);
+                PlayerPrefs.SetInt("BestScore", score);
             }
             setPageState(PageState.GameOver);
 
