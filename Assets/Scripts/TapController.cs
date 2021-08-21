@@ -19,7 +19,7 @@ public class TapController : MonoBehaviour {
     public GameObject gameOverPage;
     public Text scoreText;
     public static int score = 0;
-    public bool gameOver = false;
+    public static bool gameOver = false;
     public enum PageState
     {
         None,
