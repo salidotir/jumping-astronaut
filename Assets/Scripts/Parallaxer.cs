@@ -25,15 +25,17 @@ public class Parallaxer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(TapController.gameOver == true)
+		if (TapController.IsGameActive == false)
         {
 			// stop Update
 			this.enabled = false;
-			//rb2d.velocity = Vector2.zero;
-        }
+		}
+		if (TapController.IsGameActive == true)
+		{
+			this.enabled = true;
+			newXPosition = Mathf.Repeat(Time.time * -moveSpeed, offset);
 
-		newXPosition = Mathf.Repeat(Time.time * -moveSpeed, offset);
-
-		transform.position = startPosition + Vector2.right * newXPosition;
+			transform.position = startPosition + Vector2.right * newXPosition;
+		}
 	}
 }

@@ -7,9 +7,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TapController : MonoBehaviour {
 
-    public float tapForce = 250;
+    public float tapForce = 200;
     public float tiltSmooth = 2;
-    public Vector3 stopPosition;
+    public static Vector3 stopPosition;
 
     public static Rigidbody2D rigidBody;
     Quaternion downRotation;
@@ -18,8 +18,10 @@ public class TapController : MonoBehaviour {
     public GameObject startPage;
     public GameObject gameOverPage;
     public Text scoreText;
+    public Text gameOverScoreText;
     public static int score = 0;
-    public static bool gameOver = false;
+    public static bool IsGameActive = false;
+
     public enum PageState
     {
         None,
@@ -31,25 +33,32 @@ public class TapController : MonoBehaviour {
     void Start()
     {
         // Debug.Log("Hello world!");
+        // Debug.Log(IsGameActive);
 
         rigidBody = GetComponent<Rigidbody2D>();
 
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
+
+        setPageState(PageState.Start);
+        IsGameActive = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))    // left-click on PC OR tap on mobiles
+        if (IsGameActive == true)
         {
-            transform.rotation = forwardRotation;
+            if (Input.GetMouseButtonDown(0))    // left-click on PC OR tap on mobiles
+            {
+                transform.rotation = forwardRotation;
 
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.AddForce(Vector2.up * tapForce, ForceMode2D.Force);
+                rigidBody.velocity = Vector3.zero;
+                rigidBody.AddForce(Vector2.up * tapForce, ForceMode2D.Force);
+            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
         }
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -69,12 +78,18 @@ public class TapController : MonoBehaviour {
             rigidBody.simulated = false;           // freeze the astronaut
 
             // game over
-            gameOver = true;
-            int savedScore = PlayerPrefs.GetInt("BestScore");
-            if (score > savedScore)
-            {
-                PlayerPrefs.SetInt("BestScore", score);
-            }
+            IsGameActive = false;
+
+            // save best score for later
+            // int savedScore = PlayerPrefs.GetInt("BestScore");
+            // if (score > savedScore)
+            // {
+            // PlayerPrefs.SetInt("BestScore", score);
+            //  }
+
+            // write score
+            gameOverScoreText.text = score.ToString();
+
             setPageState(PageState.GameOver);
 
 

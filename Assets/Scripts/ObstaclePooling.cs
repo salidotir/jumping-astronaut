@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class ObstaclePooling : MonoBehaviour {
 
-	public int obstaclePoolSize = 5;
+	public static int obstaclePoolSize = 5;
 	public GameObject obstaclePrefab;
 
 	public float spawnRate = 4f;
 	public float obstacleMin = -1f;
-	public float obstacleMax = 3.5f;
+	public float obstacleMax = 2.5f;
 
-	private GameObject[] obstacles;
+	public static GameObject[] obstacles;
 	private Vector2 objectPoolPosition = new Vector2(-15f, -25f);
 	private float timeSincePreviousSpawn;
-	private float spawnXPosition = 5f;
+	private float spawnXPosition = 8f;
 	private int currentObstacleIndex = 0;
+
+	public static void DestroyObstacles()
+    {
+		for (int i = 0; i < obstaclePoolSize; i++)
+		{
+			Destroy(obstacles[i]);
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -30,22 +38,25 @@ public class ObstaclePooling : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += Vector3.right * Time.deltaTime * movingSpeed;
-		timeSincePreviousSpawn += Time.deltaTime;
-		
-		if (TapController.gameOver == false && timeSincePreviousSpawn >= spawnRate)
-        {
-			timeSincePreviousSpawn = 0;
-			float spawnYPosition = Random.Range(obstacleMin, obstacleMax);
+		if (TapController.IsGameActive == true)
+		{
+			transform.position += Vector3.right * Time.deltaTime * movingSpeed;
+			timeSincePreviousSpawn += Time.deltaTime;
 
-			// position the obstacle
-			obstacles[currentObstacleIndex].transform.position = new Vector2(spawnXPosition, spawnYPosition);
-			currentObstacleIndex += 1;
+			if (TapController.IsGameActive == true && timeSincePreviousSpawn >= spawnRate)
+			{
+				timeSincePreviousSpawn = 0;
+				float spawnYPosition = Random.Range(obstacleMin, obstacleMax);
 
-			if (currentObstacleIndex >= obstaclePoolSize)
-            {
-				currentObstacleIndex = 0;
-            }
-        }
+				// position the obstacle
+				obstacles[currentObstacleIndex].transform.position = new Vector2(spawnXPosition, spawnYPosition);
+				currentObstacleIndex += 1;
+
+				if (currentObstacleIndex >= obstaclePoolSize)
+				{
+					currentObstacleIndex = 0;
+				}
+			}
+		}
 	}
 }

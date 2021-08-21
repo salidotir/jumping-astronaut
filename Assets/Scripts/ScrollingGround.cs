@@ -17,11 +17,16 @@ public class ScrollingGround : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (TapController.gameOver == true)
+		if (TapController.IsGameActive == false)
 		{
 			// stop Update
 			rb2d.velocity = Vector2.zero;
+		}
 
+		if (TapController.IsGameActive == true)
+		{
+			// stop Update
+			rb2d.velocity = new Vector2(-1.5f, 0f);
 		}
 	}
 }
