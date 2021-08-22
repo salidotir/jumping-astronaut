@@ -16,4 +16,4 @@ In the following, you can see the design of running application:
 
 <img src="https://github.com/salidotir/jumping-astronaut/blob/main/Game%20Photos/1.jpg" height="300" width="400"> <img src="https://github.com/salidotir/jumping-astronaut/blob/main/Game%20Photos/2.jpg" height="300" width="400">
 
-![]()
+![](https://github.com/salidotir/jumping-astronaut/blob/main/Game%20Photos/3.gif)
